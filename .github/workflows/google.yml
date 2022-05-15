@@ -36,9 +36,10 @@ jobs:
         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
         
     - name: Docker configuration
-      run: gcloud auth application-default login
-
-   - name: Set up GKE credentials
+      run: |-
+        gcloud beta auth configure-docker ${GAR_LOCATION}-docker.pkg.dev
+    # Get the GKE credentials so we can deploy to the cluster
+    - name: Set up GKE credentials
       uses: google-github-actions/get-gke-credentials@v0
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
