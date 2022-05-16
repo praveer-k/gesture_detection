@@ -3,7 +3,7 @@ FROM python:3.9-slim
 ENV PYTHONUNBUFFERED True
 WORKDIR /app
 
-COPY secrets secrets
+COPY ./secrets/ /app/secrets/
 ENV GOOGLE_APPLICATION_CREDENTIALS=/app/secrets/ml-services.key.json
  
 COPY ./requirements.txt ./requirements.txt
