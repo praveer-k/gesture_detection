@@ -1,9 +1,11 @@
 FROM python:3.9-slim
 
 ENV PYTHONUNBUFFERED True
-
 WORKDIR /app
 
+COPY secrets secrets
+ENV GOOGLE_APPLICATION_CREDENTIALS=/app/secrets/ml-services.key.json
+ 
 COPY ./requirements.txt ./requirements.txt
 
 # pandas installed from ubuntu repos to avoid building C extensions
