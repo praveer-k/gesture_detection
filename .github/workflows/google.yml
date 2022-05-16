@@ -13,7 +13,7 @@ env:
   GKE_CLUSTER: cluster-1
   GKE_ZONE: europe-west3-c
   DEPLOYMENT_NAME: production
-  REPOSITORY: ${{ secrets.GKE_PROJECT }}/mlflow
+  REPOSITORY: mlflow
   IMAGE: static-site
 
 jobs:
