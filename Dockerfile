@@ -1,20 +1,16 @@
-FROM python:3.9-slim
+FROM gcr.io/getindata-images-public/mlflow:1.22.0
+ENV TINI_VERSION v0.19.0
+EXPOSE 4130
 
-ENV PYTHONUNBUFFERED True
-WORKDIR /app
+RUN apt update && apt install -y curl netcat && mkdir -p /oauth2-proxy && cd /oauth2-proxy && \
+    curl -L -o proxy.tar.gz https://github.com/oauth2-proxy/oauth2-proxy/releases/download/v6.1.1/oauth2-proxy-v6.1.1.linux-amd64.tar.gz && \
+    tar -xzf proxy.tar.gz && mv oauth2-proxy-*.linux-amd64/oauth2-proxy . && rm proxy.tar.gz && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY ./secrets/ /app/secrets/
-ENV GOOGLE_APPLICATION_CREDENTIALS=/app/secrets/ml-services.key.json
- 
-COPY ./requirements.txt ./requirements.txt
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
 
-# pandas installed from ubuntu repos to avoid building C extensions
-RUN pip install -r requirements.txt
+COPY start.sh start.sh
+RUN chmod +x start.sh
 
-COPY get_secret.py /app/get_secret.py
-COPY entry-point.sh /app/entry-point.sh
-COPY mlflow_auth.py /app/mlflow_auth.py
-
-ENTRYPOINT ["/usr/bin/env", "bash", "/app/entry-point.sh"]
-
-EXPOSE 8080
+ENTRYPOINT ["/tini", "--", "./start.sh"]

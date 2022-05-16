@@ -14,7 +14,7 @@ env:
   GKE_ZONE: europe-west3-c
   DEPLOYMENT_NAME: production
   REPOSITORY: mlflow
-  IMAGE: static-site
+  IMAGE: hosted-service
 
 jobs:
   setup-build-publish-deploy:
@@ -58,3 +58,11 @@ jobs:
       run: |-
         docker push "${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:${GITHUB_SHA}"
   
+    # Deploy the Docker image to the GKE cluster
+    - name: Deploy
+      run: |-
+        # replacing the image name in the k8s template
+        ./kustomize edit set image ${GAR_LOCATION}-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:${GITHUB_SHA}
+        ./kustomize build . | kubectl apply -f -
+        kubectl rollout status deployment/${DEPLOYMENT_NAME}
+        kubectl get services -o wide
