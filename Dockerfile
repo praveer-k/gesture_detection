@@ -4,7 +4,7 @@ WORKDIR /mlflow
 
 ENV TINI_VERSION v0.19.0
 
-EXPOSE 4130
+EXPOSE 4180
 
 # ENV DEFAULT_ARTIFACT_ROOT="gs://mlflow_cloud_storage_artifacts"
 # ENV DB_USER="mlflow-user"
