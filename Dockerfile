@@ -14,8 +14,8 @@ EXPOSE 8080
 
 # COPY secrets secrets
 
-RUN apt update && \
-    apt install -y curl netcat && \
+RUN apt-get update && \
+    apt-get install -y curl netcat && \
     mkdir -p /oauth2-proxy && \
     cd /oauth2-proxy && \
     curl -L -o proxy.tar.gz https://github.com/oauth2-proxy/oauth2-proxy/releases/download/v6.1.1/oauth2-proxy-v6.1.1.linux-amd64.tar.gz && \
