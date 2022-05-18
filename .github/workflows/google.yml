@@ -65,6 +65,7 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
+        region ${GAR_LOCATION} 
         gcloud run deploy mlflow --image ${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:${GITHUB_SHA} 
                                  --region ${GAR_LOCATION} 
                                  --add-cloudsql-instances ${DATABASE_CONNECTION_NAME}
