@@ -1,6 +1,18 @@
 FROM gcr.io/getindata-images-public/mlflow:1.22.0
+
+WORKDIR /mlflow
+
 ENV TINI_VERSION v0.19.0
+
 EXPOSE 8080
+
+# ENV DEFAULT_ARTIFACT_ROOT="gs://mlflow_cloud_storage_artifacts"
+# ENV DB_USER="mlflow-user"
+# ENV DB_PASS="system"
+# ENV DB_NAME="mlflow"
+# ENV OAUTH_PROXY_CONFIG="./secrets/oauth-proxy-secret-key.json"
+
+# COPY secrets secrets
 
 RUN apt update && \
     apt install -y curl netcat && \
@@ -12,10 +24,7 @@ RUN apt update && \
     rm proxy.tar.gz && \
     rm -rf /var/lib/apt/lists/*
 
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN chmod +x /tini
-
 COPY start.sh start.sh
 RUN chmod +x start.sh
 
-ENTRYPOINT ["/tini", "--", "./start.sh"]
+CMD ./start.sh
