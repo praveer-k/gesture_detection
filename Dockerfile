@@ -1,6 +1,6 @@
 FROM gcr.io/getindata-images-public/mlflow:1.22.0
 ENV TINI_VERSION v0.19.0
-EXPOSE 4130
+EXPOSE 8080
 
 RUN apt update && \
     apt install -y curl netcat && \
