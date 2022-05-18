@@ -67,7 +67,7 @@ jobs:
       run: |-
         gcloud config set run/region ${GAR_LOCATION}
         gcloud run deploy mlflow --image ${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:${GITHUB_SHA} 
-                                 --add-cloudsql-instances ${DATABASE_CONNECTION_NAME}
+                                 --add-cloudsql-instances=${DATABASE_CONNECTION_NAME}
                                  --set-env-vars INSTANCE_CONNECTION_NAME="${DATABASE_CONNECTION_NAME}"
                                  --set-env-vars INSTANCE_UNIX_SOCKET="/cloudsql/${DATABASE_CONNECTION_NAME}"
                                  --set-env-vars DB_NAME=${DB_NAME}
