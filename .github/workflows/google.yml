@@ -66,15 +66,15 @@ jobs:
     - name: Deploy
       run: |-
         gcloud config set run/region ${GAR_LOCATION}
-        gcloud run deploy mlflow --image ${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:${GITHUB_SHA} 
-                                 --add-cloudsql-instances=${DATABASE_CONNECTION_NAME}
-                                 --set-env-vars INSTANCE_CONNECTION_NAME="${DATABASE_CONNECTION_NAME}"
-                                 --set-env-vars INSTANCE_UNIX_SOCKET="/cloudsql/${DATABASE_CONNECTION_NAME}"
-                                 --set-env-vars DB_NAME=${DB_NAME}
-                                 --set-env-vars DB_USER="${DB_USER}
-                                 --set-env-vars DB_PASS="${{ secrets.ML_FLOW_PASS }}"
-                                 --set-env-vars GCP_PROJECT="${PROJECT_ID}"
-                                 --set-env-vars DEFAULT_ARTIFACT_ROOT="gs://mlflow_cloud_storage_artifacts"
+        gcloud run deploy mlflow --image ${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:${GITHUB_SHA} \
+                                 --add-cloudsql-instances=${DATABASE_CONNECTION_NAME} \
+                                 --set-env-vars INSTANCE_CONNECTION_NAME="${DATABASE_CONNECTION_NAME}" \
+                                 --set-env-vars INSTANCE_UNIX_SOCKET="/cloudsql/${DATABASE_CONNECTION_NAME}" \
+                                 --set-env-vars DB_NAME=${DB_NAME} \
+                                 --set-env-vars DB_USER="${DB_USER} \
+                                 --set-env-vars DB_PASS="${{ secrets.ML_FLOW_PASS }}" \
+                                 --set-env-vars GCP_PROJECT="${PROJECT_ID}" \
+                                 --set-env-vars DEFAULT_ARTIFACT_ROOT="gs://mlflow_cloud_storage_artifacts" \
                                  --set-env-vars BACKEND_STORE_URI="postgresql://mlflow?unix_sock=/cloudsql/opendatasets-349618:europe-west3:ml-flow-database/.s.PGSQL.5432"
       # replacing the image name in the k8s template
       # kubectl kustomize edit set image ${GAR_LOCATION}-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=${GAR_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:${GITHUB_SHA}
