@@ -69,5 +69,4 @@ jobs:
                                  --set-env-vars INSTANCE_CONNECTION_NAME="${DB_CONNECTION_NAME}" \
                                  --set-env-vars INSTANCE_UNIX_SOCKET="/cloudsql/${DB_CONNECTION_NAME}" \
                                  --set-env-vars DEFAULT_ARTIFACT_ROOT="gs://mlflow_cloud_storage_artifacts" \
-                                 --set-env-vars BACKEND_STORE_URI="postgresql://${DB_USER}:${DB_PASS}@${DB_PUBLIC_IP}/${DB_NAME}" \
-                                 --set-secrets="OAUTH_PROXY_CONFIG=oauth_proxy_config:latest,DB_NAME=mlflow_db_name:latest,DB_USER=mlflow_db_user:latest,DB_PASS=mlflow_db_pass:latest"
+                                 --set-secrets="OAUTH_PROXY_CONFIG=oauth_proxy_config:latest,DB_NAME=mlflow_db_name:latest,DB_USER=mlflow_db_user:latest,DB_PASS=mlflow_db_pass:latest,BACKEND_STORE_URI=mlflow_backend_store_uri:latest"
